@@ -103,7 +103,7 @@ CREATE TABLE `apunte` (
   `numero_admin` int DEFAULT NULL,
   `cod_materia` int NOT NULL,
   `archivo_apunte` longblob NOT NULL,
-  `archivo_imagen` longblob NOT NULL,
+  `archivo_caratula` longblob NOT NULL,
   PRIMARY KEY (`id_apunte`),
   KEY `CF_APUNTE_ALUMNO_idx` (`numero_alumno`),
   KEY `CF_APUNTE_ADMIN_idx` (`numero_admin`),
@@ -266,4 +266,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-28 18:06:35
+-- Dump completed on 2024-09-28 18:16:39
