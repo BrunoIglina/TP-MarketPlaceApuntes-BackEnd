@@ -27,7 +27,7 @@ GET http://localhost:3000/api/apuntes/alumnos/2
 GET http://localhost:3000/api/apuntes/2
 
 ### Actualizar un apunte por ID
-PUT http://localhost:3000/api/apuntes/3
+PUT http://localhost:3000/api/apuntes/2
 Content-Type: application/json
 
 {
@@ -62,11 +62,11 @@ Content-Type: application/json
 
 {
     "numero_alumno": 1,
-    "id_apunte": 5
+    "id_apunte": 6
 }
 
 ### Actualizar Calificación
-PATCH http://localhost:3000/api/compras/1/5
+PATCH http://localhost:3000/api/compras/1/6
 Content-Type: application/json
 
 {
@@ -74,5 +74,9 @@ Content-Type: application/json
 }
 
 
-//GET DE COMPRA POR USUARIO
+### Obtener todas las compras de alumno
+GET http://localhost:3000/api/compras/1
+
+### Obtener una unica compra
+GET http://localhost:3000/api/compras/1/5
 

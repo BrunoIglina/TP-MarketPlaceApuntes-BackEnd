@@ -1,7 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-
-const validateCompra = (data) => {
+export const validateCompra = (data) => {
   const schema = Joi.object({
     numero_alumno: Joi.number().integer().required(),
     id_apunte: Joi.number().integer().required(),
@@ -12,12 +11,10 @@ const validateCompra = (data) => {
   return schema.validate(data);
 };
 
-const validatePartialCompra = (data) => {
+export const validatePartialCompra = (data) => {
   const schema = Joi.object({
     calificacion_apunte_comprador: Joi.number().integer().min(0).max(10).required(),
   });
 
   return schema.validate(data);
 };
-
-module.exports = { validateCompra, validatePartialCompra };

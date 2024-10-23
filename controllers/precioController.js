@@ -1,7 +1,7 @@
-const PrecioModel = require('../models/precio')
+import * as PrecioModel from '../models/precio.js';
 
 class PrecioController {
-    constructor({ precioModel}) {
+    constructor({ precioModel }) {
         this.precioModel = precioModel;
     }
 
@@ -9,10 +9,9 @@ class PrecioController {
         try {
             const newPrecio = await this.precioModel.createPrecio(req.body);
             res.status(201).json(newPrecio);
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error al crear el precio: ', error);
-            res.status(500).json({ error: 'Error al crear el precio'});
+            res.status(500).json({ error: 'Error al crear el precio' });
         }
     };
 
@@ -20,26 +19,24 @@ class PrecioController {
         const { id } = req.params;
         try {
             const precio = await this.precioModel.getPrecioApunte(id);
-            if(precio) return res.json(precio);
-            res.status(404).json({ message: 'Precio no encontrado'});
+            if (precio) return res.json(precio);
+            res.status(404).json({ message: 'Precio no encontrado' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener precio' });
         }
-        catch (error) {
-            res.status(500).json({ error: 'Error al obtener precio'});
-        }
-    }
+    };
 
-    update = async (req,res) => {
+    update = async (req, res) => {
         const { id } = req.params;
 
         try {
-            const updatedPrecio = await this.precioModel.updatePrecio(id);
+            const updatedPrecio = await this.precioModel.updatePrecio(id, req.body); // Se agregó req.body para actualizar
             return res.json(updatedPrecio);
+        } catch (error) {
+            console.error('Error en la actualización del precio:', error);
+            res.status(500).json({ error: 'Error en la actualización del precio.' });
         }
-        catch (error) {
-            console.error('Error en la actualizacion del precio:', error);
-            res.status(500).json({error: 'Error en la actualizacion del precio.'});
-        }
-    }
+    };
 }
-module.exports = new PrecioController({ precioModel: PrecioModel});
 
+export default new PrecioController({ precioModel: PrecioModel });

@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const validateApunte = (data) => {
+export const validateApunte = (data) => {
   const schema = Joi.object({
     titulo_apunte: Joi.string().max(45).required(),
     descripcion_apunte: Joi.string().max(45).optional().allow(null),
@@ -15,7 +15,7 @@ const validateApunte = (data) => {
   return schema.validate(data);
 };
 
-const validatePartialApunte = (data) => {
+export const validatePartialApunte = (data) => {
   const schema = Joi.object({
     titulo_apunte: Joi.string().max(45).optional(),
     descripcion_apunte: Joi.string().max(45).optional().allow(null),
@@ -29,5 +29,3 @@ const validatePartialApunte = (data) => {
 
   return schema.validate(data);
 };
-
-module.exports = { validateApunte, validatePartialApunte };

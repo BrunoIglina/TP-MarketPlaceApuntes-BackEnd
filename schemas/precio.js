@@ -1,7 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-
-const validatePrecio = (data) => {
+export const validatePrecio = (data) => {
   const schema = Joi.object({
     id_apunte: Joi.number().integer().required(),
     fecha_hora_inicio_precio: Joi.date().optional(),  
@@ -12,8 +11,7 @@ const validatePrecio = (data) => {
   return schema.validate(data);
 };
 
-
-const validatePartialPrecio = (data) => {
+export const validatePartialPrecio = (data) => {
   const schema = Joi.object({
     fecha_hora_inicio_precio: Joi.date().optional(),
     fecha_hora_fin_precio: Joi.date().required(),  
@@ -22,5 +20,3 @@ const validatePartialPrecio = (data) => {
 
   return schema.validate(data);
 };
-
-module.exports = { validatePrecio, validatePartialPrecio };
