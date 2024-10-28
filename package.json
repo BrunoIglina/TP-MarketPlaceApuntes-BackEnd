@@ -1,4 +1,7 @@
 {
+  "name": "marketplaceapuntes",
+  "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "cors": "2.8.5",
     "dotenv": "^16.4.5",

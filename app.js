@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const apunteRoutes = require('./routes/apunteRoutes');
-const precioRoutes = require('./routes/precioRoutes');
-const compraRoutes = require('./routes/compraRoutes');
+import express from 'express';
+import cors from 'cors';
+import apunteRoutes from './routes/apunteRoutes.js';
+import precioRoutes from './routes/precioRoutes.js';
+import compraRoutes from './routes/compraRoutes.js';
 
 const app = express();
 

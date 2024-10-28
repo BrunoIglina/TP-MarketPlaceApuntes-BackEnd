@@ -1,26 +1,18 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const moment = require('moment-timezone');
-require('dotenv').config();
+import { DataTypes } from 'sequelize';
+import moment from 'moment-timezone';
+import dotenv from 'dotenv';
+import { validatePrecio, validatePartialPrecio } from '../schemas/precio.js';
+import { sequelize } from './sequelize.js'; // Asegúrate de importar sequelize desde este archivo
+import { ApunteModel } from './apunte.js';
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-  }
-);
+dotenv.config();
 
-const Apunte = require('./apunte');
-const { validatePrecio, validatePartialPrecio } = require('../schemas/precio');
-
-const Precio = sequelize.define('Precio', {
+export const PrecioModel = sequelize.define('Precio', {
   id_apunte: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Apunte,
+      model: ApunteModel,
       key: 'id_apunte',
     },
     onDelete: 'CASCADE',
@@ -45,7 +37,7 @@ const Precio = sequelize.define('Precio', {
   timestamps: false,
 });
 
-async function createPrecio(data) {
+export async function createPrecio(data) {
     const { error } = validatePrecio(data);
     if (error) {
         throw new Error(error.details.map(err => err.message).join(', '));
@@ -54,7 +46,7 @@ async function createPrecio(data) {
     const currentDate = moment().tz("America/Argentina/Buenos_Aires").toDate();
     data.fecha_hora_inicio_precio = currentDate;
 
-    const latestPrice = await Precio.findOne({
+    const latestPrice = await PrecioModel.findOne({
         where: { id_apunte: data.id_apunte },
         order: [['fecha_hora_inicio_precio', 'DESC']]
     });
@@ -64,25 +56,25 @@ async function createPrecio(data) {
         await latestPrice.save();
     }
 
-    return Precio.create(data);
+    return PrecioModel.create(data);
 }
 
-function getPrecioApunte(idApunte) {
-    return Precio.findOne({
+export function getPrecioApunte(idApunte) {
+    return PrecioModel.findOne({
         where: { id_apunte: idApunte },
         order: [['fecha_hora_inicio_precio', 'DESC']]
     });
 }
 
-function updatePrecio(id, data) {
+export function updatePrecio(id, data) {
     const { error } = validatePartialPrecio(data);
     if (error) {
         throw new Error(error.details.map(err => err.message).join(', '));
     }
 
-    return Precio.findByPk(id).then(precio => {
+    return PrecioModel.findByPk(id).then(precio => {
         if (precio) {
-            return precio.update(data);
+            return PrecioModel.update(data);
         }
         throw new Error('El precio no se pudo modificar');
     });
@@ -97,8 +89,4 @@ function updatePrecio(id, data) {
     }
 })();
 
-module.exports = {
-    createPrecio,
-    getPrecioApunte,
-    updatePrecio,
-}
+
