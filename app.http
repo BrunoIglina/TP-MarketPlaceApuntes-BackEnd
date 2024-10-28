@@ -1,0 +1,82 @@
+### Crear un nuevo apunte
+POST http://localhost:3000/api/apuntes
+Content-Type: application/json  
+
+{
+    "titulo_apunte": "Ades",
+    "descripcion_apunte": "Resumen Final Teoria",
+    "numero_alumno": 2,
+    "cod_materia": 1,
+    "archivo_apunte": "data:application/pdf;base64,...",  
+    "archivo_caratula": "data:image/jpeg;base64,..."      
+}
+
+
+### Obtener todos los apuntes
+GET http://localhost:3000/api/apuntes
+
+### Obtener apuntes por materia ordenados por calificacion
+GET http://localhost:3000/api/apuntes/materias/1
+
+### Obtener los apuntes publicados de un alumno
+GET http://localhost:3000/api/apuntes/alumnos/2
+
+
+
+### Obtener un apunte por ID
+GET http://localhost:3000/api/apuntes/2
+
+### Actualizar un apunte por ID
+PUT http://localhost:3000/api/apuntes/2
+Content-Type: application/json
+
+{
+    "titulo_apunte": "Resumenn Parcial 1"
+}
+
+### Eliminar un apunte por ID
+DELETE http://localhost:3000/api/apuntes/3
+
+
+
+
+### AHORA HAGO CRUD DE PRECIO
+
+### Crear un nuevo precio
+POST http://localhost:3000/api/precios
+Content-Type: application/json
+
+{
+  "id_apunte": 5,
+  "monto_precio": 5500
+}
+
+### Obtener el último precio de un apunte por su ID
+GET http://localhost:3000/api/precios/5
+
+### AHORA HAGO CRUD COMPRA
+
+### Crear una nueva compra
+POST http://localhost:3000/api/compras
+Content-Type: application/json
+
+{
+    "numero_alumno": 1,
+    "id_apunte": 6
+}
+
+### Actualizar Calificación
+PATCH http://localhost:3000/api/compras/1/6
+Content-Type: application/json
+
+{
+    "calificacion_apunte_comprador":1
+}
+
+
+### Obtener todas las compras de alumno
+GET http://localhost:3000/api/compras/1
+
+### Obtener una unica compra
+GET http://localhost:3000/api/compras/1/5
+
