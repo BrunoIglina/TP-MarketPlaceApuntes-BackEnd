@@ -4,6 +4,7 @@ import apunteRoutes from './routes/apunteRoutes.js';
 import precioRoutes from './routes/precioRoutes.js';
 import compraRoutes from './routes/compraRoutes.js';
 
+
 const app = express();
 
 app.use(cors());

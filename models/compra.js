@@ -4,6 +4,7 @@ import {ApunteModel} from './apunte.js';
 import moment from 'moment-timezone';
 import dotenv from 'dotenv';
 import { validateCompra, validatePartialCompra } from '../schemas/compra.js';
+import { Buffer } from 'buffer';
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ export const CompraModel = sequelize.define('Compra', {
   timestamps: false,
 });
 
-// Definición de relaciones
+
 CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
 ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
 
@@ -84,10 +85,16 @@ export async function GetCompras(numero_alumno1) {
       as: 'apunte',
       attributes: ['id_apunte', 'titulo_apunte', 'descripcion_apunte', 'calificacion_apunte', 'fecha_hora_publicacion', 'archivo_caratula']
     }],
-    order: [[{ model: ApunteModel, as: 'apunte' }, 'fecha_hora_publicacion', 'DESC']] 
+    order: [[{ model: ApunteModel, as: 'apunte' }, 'fecha_hora_publicacion', 'DESC']]
   });
 
-  const apuntes = compras.map(compra => compra.apunte);
+  const apuntes = compras.map(compra => {
+    const apunte = compra.apunte;
+    if (apunte.archivo_caratula) {
+      apunte.archivo_caratula = `data:image/jpeg;base64,${Buffer.from(apunte.archivo_caratula).toString('base64')}`;
+    }
+    return apunte;
+  });
   return apuntes;
 }
 

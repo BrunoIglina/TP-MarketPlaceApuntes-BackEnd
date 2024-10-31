@@ -40,15 +40,15 @@ class CompraController {
 
     getCompras = async (req, res) => {
         const { numero_alumno } = req.params;
-
+      
         try {
-            const compras = await this.compraModel.GetCompras(numero_alumno);
-            res.json(compras);
+          const compras = await this.compraModel.GetCompras(numero_alumno);
+          res.json(compras);
         } catch (error) {
-            console.error('Error al obtener las compras:', error);
-            res.status(500).json({ error: 'Error al obtener las compras' });
+          console.error('Error al obtener las compras:', error);
+          res.status(500).json({ error: 'Error al obtener las compras' });
         }
-    };
+      };
 
     getCompra = async (req, res) => {
         const { numero_alumno, id_apunte } = req.params;

@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "titulo_apunte": "Ades",
-    "descripcion_apunte": "Resumen Final Teoria",
-    "numero_alumno": 2,
+    "descripcion_apunte": "Resumen Final Practica",
+    "numero_alumno": 1,
     "cod_materia": 1,
     "archivo_apunte": "data:application/pdf;base64,...",  
     "archivo_caratula": "data:image/jpeg;base64,..."      
@@ -16,15 +16,15 @@ Content-Type: application/json
 GET http://localhost:3000/api/apuntes
 
 ### Obtener apuntes por materia ordenados por calificacion
-GET http://localhost:3000/api/apuntes/materias/1
+GET http://localhost:3000/api/apuntes/materias/2
 
 ### Obtener los apuntes publicados de un alumno
-GET http://localhost:3000/api/apuntes/alumnos/2
+GET http://localhost:3000/api/apuntes/alumnos/1
 
 
 
 ### Obtener un apunte por ID
-GET http://localhost:3000/api/apuntes/2
+GET http://localhost:3000/api/apuntes/5
 
 ### Actualizar un apunte por ID
 PUT http://localhost:3000/api/apuntes/2
@@ -47,8 +47,8 @@ POST http://localhost:3000/api/precios
 Content-Type: application/json
 
 {
-  "id_apunte": 5,
-  "monto_precio": 5500
+  "id_apunte": 4,
+  "monto_precio": 3500
 }
 
 ### Obtener el último precio de un apunte por su ID
@@ -62,15 +62,15 @@ Content-Type: application/json
 
 {
     "numero_alumno": 1,
-    "id_apunte": 6
+    "id_apunte": 16
 }
 
 ### Actualizar Calificación
-PATCH http://localhost:3000/api/compras/1/6
+PATCH http://localhost:3000/api/compras/1/5
 Content-Type: application/json
 
 {
-    "calificacion_apunte_comprador":1
+    "calificacion_apunte_comprador":8
 }
 
 
