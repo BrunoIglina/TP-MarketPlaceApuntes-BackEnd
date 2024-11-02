@@ -1,5 +1,7 @@
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -12,9 +14,7 @@ const sequelize = new Sequelize(
   }
 );
 
-
-
-const testConnection = async () => {
+export const testConnection = async () => {
   try {
     await sequelize.authenticate();
     console.log('Conexión a la base de datos establecida correctamente.');
@@ -24,3 +24,7 @@ const testConnection = async () => {
 };
 
 testConnection();
+
+// Exporta la instancia de sequelize
+export { sequelize };
+

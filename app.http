@@ -47,8 +47,8 @@ POST http://localhost:3000/api/precios
 Content-Type: application/json
 
 {
-  "id_apunte": 5,
-  "monto_precio": 5500
+    "id_apunte": 5,
+    "monto_precio": 5500
 }
 
 ### Obtener el último precio de un apunte por su ID
@@ -79,4 +79,61 @@ GET http://localhost:3000/api/compras/1
 
 ### Obtener una unica compra
 GET http://localhost:3000/api/compras/1/5
+
+
+
+###CRUD Materia
+###CREATE MATERIA
+
+POST http://localhost:3000/api/materias
+Content-Type: application/json
+
+{
+    "nombre_materia": "Literatura",
+    "nivel_carrera": 2,
+    "numero_admin": 1
+}
+
+###Get Materia
+GET http://localhost:3000/api/materias/1
+
+###GetAll materia
+GET http://localhost:3000/api/materias
+
+
+###UPDATE Materia
+PUT http://localhost:3000/api/materias/5
+Content-Type: application/json
+
+{
+    "nombre_materia": "PlimPlom",
+    "nivel_carrera": 5
+}
+
+###Delete Materia
+DELETE http://localhost:3000/api/materias/1
+
+
+
+###CRUD mod_materia
+
+###ADD
+POST http://localhost:3000/api/modificacion_materias
+Content-Type: application/json
+
+{
+    "cod_materia": 7,
+    "fecha_hora_mod_materia": "2024-10-29 14:30:00",
+    "desc_mod_materia": "Cambio de horario de clase"
+}
+
+
+###Get
+
+GET http://localhost:3000/api/modificacion_materias/4/2024-10-31%2020:26:02
+
+
+###GetAll
+
+GET http://localhost:3000/api/modificacion_materias?cod_materia=1
 
