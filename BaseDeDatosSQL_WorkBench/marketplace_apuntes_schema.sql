@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `marketplace_apuntes` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `marketplace_apuntes`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: marketplace_apuntes
@@ -27,7 +29,7 @@ CREATE TABLE `administrador` (
   `nombre_apellido_alumno` varchar(45) NOT NULL,
   `email_usuario` varchar(45) NOT NULL,
   `nombre_usuario` varchar(45) NOT NULL,
-  `telefono_usuario` int NOT NULL,
+  `telefono_usuario` varchar(20) NOT NULL,
   `contraseña_usuario` varchar(45) NOT NULL,
   `rol_usuario` varchar(45) NOT NULL,
   PRIMARY KEY (`numero_usuario`),
@@ -57,14 +59,15 @@ CREATE TABLE `alumno` (
   `nombre_apellido_alumno` varchar(45) NOT NULL,
   `email_usuario` varchar(45) NOT NULL,
   `nombre_usuario` varchar(45) NOT NULL,
-  `telefono_usuario` int NOT NULL,
+  `telefono_usuario` varchar(15) NOT NULL,
   `contraseña_usuario` varchar(45) NOT NULL,
   `legajo_usuario` int NOT NULL,
   `reputacion_usuario` int DEFAULT NULL,
   `fecha_hora_suspension` datetime DEFAULT NULL,
   `motivo_suspension` varchar(60) DEFAULT NULL,
   `duracion_suspension` time DEFAULT NULL,
-  `numero_admin` int NOT NULL,
+  `numero_admin` int DEFAULT NULL,
+  `CVU_MP` int DEFAULT NULL,
   PRIMARY KEY (`numero_usuario`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`),
   UNIQUE KEY `email_usuario_UNIQUE` (`email_usuario`),
@@ -96,19 +99,13 @@ CREATE TABLE `apunte` (
   `descripcion_apunte` varchar(45) DEFAULT NULL,
   `calificacion_apunte` int DEFAULT NULL,
   `fecha_hora_publicacion` datetime NOT NULL,
-  `fecha_hora_baja_apunte` datetime DEFAULT NULL,
-  `fecha_hora_borrado_apunte` datetime DEFAULT NULL,
-  `motivo_borrado` varchar(45) DEFAULT NULL,
   `numero_alumno` int NOT NULL,
-  `numero_admin` int DEFAULT NULL,
   `cod_materia` int NOT NULL,
   `archivo_apunte` longblob NOT NULL,
   `archivo_caratula` longblob NOT NULL,
   PRIMARY KEY (`id_apunte`),
   KEY `CF_APUNTE_ALUMNO_idx` (`numero_alumno`),
-  KEY `CF_APUNTE_ADMIN_idx` (`numero_admin`),
   KEY `CF_APUNTE_MATERIA_idx` (`cod_materia`),
-  CONSTRAINT `CF_APUNTE_ADMIN` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE,
   CONSTRAINT `CF_APUNTE_ALUMNO` FOREIGN KEY (`numero_alumno`) REFERENCES `alumno` (`numero_usuario`) ON DELETE CASCADE,
   CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -266,4 +263,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-28 18:16:39
+-- Dump completed on 2024-10-13 19:26:20
