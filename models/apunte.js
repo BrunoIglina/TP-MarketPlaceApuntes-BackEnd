@@ -3,6 +3,7 @@ import moment from 'moment-timezone';
 import { sequelize } from './sequelize.js';
 import dotenv from 'dotenv';
 import { validateApunte, validatePartialApunte } from '../schemas/apunte.js';
+import { createModificacionApunte } from './modificacionApunte.js';
 
 dotenv.config();
 
@@ -134,19 +135,26 @@ export async function getApunteById(id) {
 }
 
 
-export async function updateApunte(id, data) {
+export async function updateApunte(id, data, descripcionModificacion) {
   const { error } = validatePartialApunte(data);
   if (error) {
-    throw new Error(error.details.map(err => err.message).join(', '));
+      throw new Error(error.details.map(err => err.message).join(', '));
   }
 
   const apunte = await ApunteModel.findByPk(id);
   if (!apunte) {
-    throw new Error('Apunte no encontrado');
+      throw new Error('Apunte no encontrado');
   }
 
-  return apunte.update(data);
+
+  const updatedApunte = await apunte.update(data);
+
+
+  await createModificacionApunte(id, descripcionModificacion);
+
+  return updatedApunte;
 }
+
 
 export async function deleteApunte(id) {
   const apunte = await ApunteModel.findByPk(id);

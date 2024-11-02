@@ -95,15 +95,18 @@ class ApunteController {
 
     update = async (req, res) => {
         const { id } = req.params;
-
+        const { descripcion_mod_apunte, ...updateData } = req.body; // Extraemos la descripción
+    
         try {
-            const updatedApunte = await this.apunteModel.updateApunte(id, req.body);
+            
+            const updatedApunte = await this.apunteModel.updateApunte(id, updateData, descripcion_mod_apunte);
             return res.json(updatedApunte);
         } catch (error) {
             console.error('Error en la actualización:', error);
             res.status(500).json({ error: 'Error en la actualización del apunte.' });
         }
     };
+    
 
     download = async (req, res) => {
         const { id } = req.params;

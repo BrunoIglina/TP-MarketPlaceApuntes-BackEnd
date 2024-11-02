@@ -24,15 +24,17 @@ GET http://localhost:3000/api/apuntes/alumnos/1
 
 
 ### Obtener un apunte por ID
-GET http://localhost:3000/api/apuntes/5
+GET http://localhost:3000/api/apuntes/8
 
 ### Actualizar un apunte por ID
-PUT http://localhost:3000/api/apuntes/2
+PUT http://localhost:3000/api/apuntes/8
 Content-Type: application/json
 
 {
-    "titulo_apunte": "Resumenn Parcial 1"
+  "titulo_apunte": "Resumen del parcial 2",
+  "descripcion_mod_apunte": "Actualización del título del apunte"
 }
+
 
 ### Eliminar un apunte por ID
 DELETE http://localhost:3000/api/apuntes/3
@@ -52,7 +54,7 @@ Content-Type: application/json
 }
 
 ### Obtener el último precio de un apunte por su ID
-GET http://localhost:3000/api/precios/5
+GET http://localhost:3000/api/precios/7
 
 ### AHORA HAGO CRUD COMPRA
 
@@ -62,7 +64,7 @@ Content-Type: application/json
 
 {
     "numero_alumno": 1,
-    "id_apunte": 16
+    "id_apunte": 8
 }
 
 ### Actualizar Calificación
