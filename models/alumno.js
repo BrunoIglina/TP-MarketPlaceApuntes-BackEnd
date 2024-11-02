@@ -1,20 +1,22 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const moment = require('moment-timezone');
-// const { validateApunte, validatePartialApunte } = require('../schemas/apunte'); // Hacer para alumno
-require('dotenv').config();
+import { Sequelize, DataTypes } from 'sequelize';
+import moment from 'moment-timezone';
+import { validateAlumno, validatePartialAlumno } from '../schemas/alumno.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-  }
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
+    }
 );
 
-// CREACIÓN DE LA INSTANCIA ALUMNO
-const Alumno = sequelize.define('Alumno', {
+// Modelo de Alumno
+export const Alumno = sequelize.define('Alumno', {
     numero_usuario: {
         type: DataTypes.STRING(45),
         autoIncrement: true,
@@ -71,44 +73,37 @@ const Alumno = sequelize.define('Alumno', {
 }, {
     tableName: 'alumno',
     timestamps: false
-}) 
+});
 
-function createAlumno(data) {
-    const { error } = validateAlumno(data)
+export function createAlumno(data) {
+    const { error } = validateAlumno(data);
     if (error) {
-        throw new Error(error.details.map(err => err.message).join(', '))
+        throw new Error(error.details.map(err => err.message).join(', '));
     }
+    return Alumno.create(data);
 }
 
-function getAlumnoById (id) {
-    return Alumno.findByPk(id)
+export function getAlumnoById(id) {
+    return Alumno.findByPk(id);
 }
 
-async function updateAlumno(id, data) {
-    const { error } = validatePartialAlumno(data); 
-    if (error) {
-      throw new Error(error.details.map(err => err.message).join(', '));
-    }
-  
+export async function updateAlumno(id, data) {
     const alumno = await Alumno.findByPk(id);
     if (!alumno) {
-      throw new Error('Alumno no encontrado');
+        throw new Error('Alumno no encontrado');
     }
-  
+    const { error } = validatePartialAlumno(data);
+    if (error) {
+        throw new Error(error.details.map(err => err.message).join(', '));
+    }
     return alumno.update(data);
-  }
+}
 
-  (async () => {
+(async () => {
     try {
-      await sequelize.sync();
-      console.log('Modelo sincronizado con la base de datos.');
+        await sequelize.sync();
+        console.log('Modelo sincronizado con la base de datos.');
     } catch (error) {
-      console.error('Error al sincronizar el modelo con la base de datos:', error);
+        console.error('Error al sincronizar el modelo con la base de datos:', error);
     }
-  })();
-
-  module.exports = {
-    createAlumno,
-    getAlumnoById,
-    updateAlumno
-  }
+})();

@@ -33,9 +33,6 @@ export const CompraModel = sequelize.define('Compra', {
   timestamps: false,
 });
 
-// Definición de relaciones
-CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
-ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
 
 
 CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
