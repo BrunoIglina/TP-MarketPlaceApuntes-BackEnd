@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "titulo_apunte": "Ades",
-    "descripcion_apunte": "Resumen Final Teoria",
-    "numero_alumno": 2,
+    "descripcion_apunte": "Resumen Final Practica",
+    "numero_alumno": 1,
     "cod_materia": 1,
     "archivo_apunte": "data:application/pdf;base64,...",  
     "archivo_caratula": "data:image/jpeg;base64,..."      
@@ -16,23 +16,25 @@ Content-Type: application/json
 GET http://localhost:3000/api/apuntes
 
 ### Obtener apuntes por materia ordenados por calificacion
-GET http://localhost:3000/api/apuntes/materias/1
+GET http://localhost:3000/api/apuntes/materias/2
 
 ### Obtener los apuntes publicados de un alumno
-GET http://localhost:3000/api/apuntes/alumnos/2
+GET http://localhost:3000/api/apuntes/alumnos/1
 
 
 
 ### Obtener un apunte por ID
-GET http://localhost:3000/api/apuntes/2
+GET http://localhost:3000/api/apuntes/8
 
 ### Actualizar un apunte por ID
-PUT http://localhost:3000/api/apuntes/3
+PUT http://localhost:3000/api/apuntes/8
 Content-Type: application/json
 
 {
-    "titulo_apunte": "Resumenn Parcial 1"
+  "titulo_apunte": "Resumen del parcial 2",
+  "descripcion_mod_apunte": "Actualización del título del apunte"
 }
+
 
 ### Eliminar un apunte por ID
 DELETE http://localhost:3000/api/apuntes/3
@@ -47,12 +49,12 @@ POST http://localhost:3000/api/precios
 Content-Type: application/json
 
 {
-  "id_apunte": 5,
-  "monto_precio": 5500
+  "id_apunte": 4,
+  "monto_precio": 3500
 }
 
 ### Obtener el último precio de un apunte por su ID
-GET http://localhost:3000/api/precios/5
+GET http://localhost:3000/api/precios/7
 
 ### AHORA HAGO CRUD COMPRA
 
@@ -62,7 +64,7 @@ Content-Type: application/json
 
 {
     "numero_alumno": 1,
-    "id_apunte": 5
+    "id_apunte": 8
 }
 
 ### Actualizar Calificación
@@ -70,11 +72,15 @@ PATCH http://localhost:3000/api/compras/1/5
 Content-Type: application/json
 
 {
-    "calificacion_apunte_comprador":1
+    "calificacion_apunte_comprador":8
 }
 
 
-//GET DE COMPRA POR USUARIO
+### Obtener todas las compras de alumno
+GET http://localhost:3000/api/compras/1
+
+### Obtener una unica compra
+GET http://localhost:3000/api/compras/1/5
 
 
 

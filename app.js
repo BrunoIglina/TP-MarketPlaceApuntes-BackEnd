@@ -1,9 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const apunteRoutes = require('./routes/apunteRoutes');
-const precioRoutes = require('./routes/precioRoutes');
-const compraRoutes = require('./routes/compraRoutes');
-const alumnoRoutes = require('./routes/alumnoRoutes');
+
+import express from 'express';
+import cors from 'cors';
+import apunteRoutes from './routes/apunteRoutes.js';
+import precioRoutes from './routes/precioRoutes.js';
+import compraRoutes from './routes/compraRoutes.js';
+import alumnoRoutes from './routes/alumnoRoutes.js';
 
 const app = express();
 
@@ -17,5 +18,5 @@ app.use('/api/alumnos', alumnoRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(Servidor corriendo en http://localhost:${PORT});
 });

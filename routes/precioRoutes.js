@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import PrecioController from '../controllers/precioController.js';
+
 const router = express.Router();
-const PrecioController = require('../controllers/precioController');
 
 router.post('/', PrecioController.create);
 router.get('/:id', PrecioController.getUltPrecio);
 router.put('/:id', PrecioController.update);
 
-module.exports = router;
+export default router;

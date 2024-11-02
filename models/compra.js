@@ -1,20 +1,14 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const moment = require('moment-timezone');
-require('dotenv').config();
-const { validateCompra, validatePartialCompra } = require('../schemas/compra'); 
-const Apunte = require('./apunte'); 
+import { Op, Model, DataTypes, NOW } from 'sequelize';
+import {sequelize} from './sequelize.js'; 
+import {ApunteModel} from './apunte.js'; 
+import moment from 'moment-timezone';
+import dotenv from 'dotenv';
+import { validateCompra, validatePartialCompra } from '../schemas/compra.js';
+import { Buffer } from 'buffer';
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-  }
-);
+dotenv.config();
 
-const Compra = sequelize.define('Compra', {
+export const CompraModel = sequelize.define('Compra', {
   numero_alumno: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -40,32 +34,32 @@ const Compra = sequelize.define('Compra', {
 });
 
 
-async function createCompra(data) {
-  // Validar los datos de la compra
+CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
+ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
+
+export async function createCompra(data) {
   const { error } = validateCompra(data);
   if (error) {
     throw new Error(error.details.map(err => err.message).join(', '));
   }
 
-  // Crear la compra
-  const compra = await Compra.create({
+  const compra = await CompraModel.create({
     numero_alumno: data.numero_alumno,
     id_apunte: data.id_apunte,
     fecha_hora_compra: moment.tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DD HH:mm:ss'),
-    calificacion_apunte_comprador: data.calificacion_apunte_comprador || null, // Asignar calificación si está presente
+    calificacion_apunte_comprador: data.calificacion_apunte_comprador || null, 
   });
   return compra;
 }
 
-async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comprador }) {
-  // Validar la calificación de la compra
+export async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comprador }) {
   const { error } = validatePartialCompra({ calificacion_apunte_comprador });
   if (error) {
     throw new Error(error.details.map(err => err.message).join(', '));
   }
 
   try {
-    const compra = await Compra.findOne({
+    const compra = await CompraModel.findOne({
       where: { numero_alumno, id_apunte }
     });
 
@@ -73,11 +67,9 @@ async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comp
       throw new Error('Compra no encontrada');
     }
 
-    // Actualizar la calificación
     compra.calificacion_apunte_comprador = calificacion_apunte_comprador;
     await compra.save();
 
-    // Actualizar el promedio de calificación del apunte
     await updateCalificacionPromedio(id_apunte);
     return compra;
   } catch (error) {
@@ -85,25 +77,43 @@ async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comp
   }
 }
 
+export async function GetCompras(numero_alumno1) {
+  const compras = await CompraModel.findAll({
+    where: { numero_alumno: numero_alumno1 },
+    include: [{
+      model: ApunteModel,
+      as: 'apunte',
+      attributes: ['id_apunte', 'titulo_apunte', 'descripcion_apunte', 'calificacion_apunte', 'fecha_hora_publicacion', 'archivo_caratula']
+    }],
+    order: [[{ model: ApunteModel, as: 'apunte' }, 'fecha_hora_publicacion', 'DESC']]
+  });
 
-
-  
- 
-async function updateCalificacionPromedio(id_apunte) {
-    const [results] = await sequelize.query(
-        'SELECT AVG(calificacion_apunte_comprador) AS promedio_calificacion FROM compra WHERE id_apunte = ?',
-        { replacements: [id_apunte] }
-    );
-
-    if (results[0].promedio_calificacion !== null) {
-        const promedio = Math.round(results[0].promedio_calificacion);
-
-        
-        return Apunte.updateApunte(id_apunte, { calificacion_apunte: promedio });
+  const apuntes = compras.map(compra => {
+    const apunte = compra.apunte;
+    if (apunte.archivo_caratula) {
+      apunte.archivo_caratula = `data:image/jpeg;base64,${Buffer.from(apunte.archivo_caratula).toString('base64')}`;
     }
+    return apunte;
+  });
+  return apuntes;
 }
 
-module.exports = {
-  createCompra,
-  updateCompra,
-};
+export async function GetCompra(numero_alumno1, id_apunte1) {
+  const compra = await CompraModel.findOne({
+    where: { numero_alumno: numero_alumno1, id_apunte: id_apunte1 }
+  });
+  return compra;
+}
+
+export async function updateCalificacionPromedio(id_apunte) {
+  const [results] = await sequelize.query(
+    'SELECT AVG(calificacion_apunte_comprador) AS promedio_calificacion FROM compra WHERE id_apunte = ?',
+    { replacements: [id_apunte] }
+  );
+
+  if (results[0].promedio_calificacion !== null) {
+    const promedio = Math.round(results[0].promedio_calificacion);
+    return ApunteModel.update({ calificacion_apunte: promedio }, { where: { id_apunte } });
+  }
+}
+
