@@ -58,6 +58,7 @@ export async function createApunte(data) {
 
   data.fecha_hora_publicacion = moment.tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DD HH:mm:ss');
   return ApunteModel.create(data); 
+
 }
 
 export async function getAllApuntes() {
@@ -154,7 +155,6 @@ export async function updateApunte(id, data, descripcionModificacion) {
 
   return updatedApunte;
 }
-
 
 export async function deleteApunte(id) {
   const apunte = await ApunteModel.findByPk(id);

@@ -17,5 +17,4 @@ router.get('/materias/:id', ApunteController.getByIdMateria);
 router.get('/alumnos/:id', ApunteController.getByIdAlumno);
 router.get('/descargar/:id', ApunteController.download);
 
-
 export default router;

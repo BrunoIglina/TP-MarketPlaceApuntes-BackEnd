@@ -33,6 +33,10 @@ export const CompraModel = sequelize.define('Compra', {
   timestamps: false,
 });
 
+// Definición de relaciones
+CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
+ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
+
 
 CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
 ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
@@ -85,6 +89,7 @@ export async function GetCompras(numero_alumno1) {
       as: 'apunte',
       attributes: ['id_apunte', 'titulo_apunte', 'descripcion_apunte', 'calificacion_apunte', 'fecha_hora_publicacion', 'archivo_caratula']
     }],
+
     order: [[{ model: ApunteModel, as: 'apunte' }, 'fecha_hora_publicacion', 'DESC']]
   });
 
