@@ -23,10 +23,6 @@ export const Materia = sequelize.define('Materia', {
     allowNull: false,
     defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
-    fecha_hora_baja_materia: {
-    type: DataTypes.DATE,
-    allowNull: true,
-    },
     numero_admin: {
     type: DataTypes.INTEGER,
     allowNull: false,

@@ -97,7 +97,7 @@ Content-Type: application/json
 }
 
 ###Get Materia
-GET http://localhost:3000/api/materias/1
+GET http://localhost:3000/api/materias/4
 
 ###GetAll materia
 GET http://localhost:3000/api/materias
