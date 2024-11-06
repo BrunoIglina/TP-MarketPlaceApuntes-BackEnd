@@ -23,10 +23,6 @@ export const Materia = sequelize.define('Materia', {
     allowNull: false,
     defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
-    fecha_hora_baja_materia: {
-    type: DataTypes.DATE,
-    allowNull: true,
-    },
     numero_admin: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -85,5 +81,4 @@ export async function deleteMateria(id) {
     console.error('Error al sincronizar el modelo Materia con la base de datos:', error);
     }
 })();
-
 
