@@ -104,7 +104,7 @@ GET http://localhost:3000/api/materias
 
 
 ###UPDATE Materia
-PUT http://localhost:3000/api/materias/2
+PUT http://localhost:3000/api/materias/3
 Content-Type: application/json
 
 {
@@ -165,3 +165,21 @@ Content-Type: application/json
     "CVU_MP": "12345",
     "telefono_usuario": "3425475068"
 }
+
+### Crear preferencia
+POST http://localhost:3000/api/mercadopago/create_preference
+Content-Type: application/json
+
+{
+    "title": "Mi producto",
+    "quantity": 1,
+    "unit_price": 2000
+}
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `marketplace_apuntes` /*!40100 DEFAULT CHARACTER 
 USE `marketplace_apuntes`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: marketplace_apuntes
+-- Host: 127.0.0.1    Database: marketplace_apuntes
 -- ------------------------------------------------------
 -- Server version	8.0.39
 
@@ -32,20 +32,12 @@ CREATE TABLE `administrador` (
   `telefono_usuario` varchar(20) NOT NULL,
   `contraseña_usuario` varchar(45) NOT NULL,
   `rol_usuario` varchar(45) NOT NULL,
+  `CVU_MP` bigint DEFAULT NULL,
   PRIMARY KEY (`numero_usuario`),
   UNIQUE KEY `email_usuario_UNIQUE` (`email_usuario`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `administrador`
---
-
-LOCK TABLES `administrador` WRITE;
-/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
-/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `alumno`
@@ -74,17 +66,8 @@ CREATE TABLE `alumno` (
   UNIQUE KEY `legajo_usuario_UNIQUE` (`legajo_usuario`),
   KEY `numero_admin_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_ALUMNO` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `alumno`
---
-
-LOCK TABLES `alumno` WRITE;
-/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
-/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `apunte`
@@ -108,17 +91,8 @@ CREATE TABLE `apunte` (
   KEY `CF_APUNTE_MATERIA_idx` (`cod_materia`),
   CONSTRAINT `CF_APUNTE_ALUMNO` FOREIGN KEY (`numero_alumno`) REFERENCES `alumno` (`numero_usuario`) ON DELETE CASCADE,
   CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `apunte`
---
-
-LOCK TABLES `apunte` WRITE;
-/*!40000 ALTER TABLE `apunte` DISABLE KEYS */;
-/*!40000 ALTER TABLE `apunte` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `compra`
@@ -132,21 +106,13 @@ CREATE TABLE `compra` (
   `id_apunte` int NOT NULL,
   `fecha_hora_compra` datetime NOT NULL,
   `calificacion_apunte_comprador` int DEFAULT NULL,
+  `idPago` varchar(255) NOT NULL,
   PRIMARY KEY (`numero_alumno`,`id_apunte`),
   KEY `CF_APUNTE_COMPRA_idx` (`id_apunte`),
   CONSTRAINT `CF_ALUMNO_COMPRA` FOREIGN KEY (`numero_alumno`) REFERENCES `alumno` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `CF_APUNTE_COMPRA` FOREIGN KEY (`id_apunte`) REFERENCES `apunte` (`id_apunte`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `compra`
---
-
-LOCK TABLES `compra` WRITE;
-/*!40000 ALTER TABLE `compra` DISABLE KEYS */;
-/*!40000 ALTER TABLE `compra` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `materia`
@@ -160,23 +126,13 @@ CREATE TABLE `materia` (
   `nombre_materia` varchar(45) NOT NULL,
   `nivel_carrera` int NOT NULL,
   `fecha_hora_alta_materia` datetime NOT NULL,
-  `fecha_hora_baja_materia` datetime DEFAULT NULL,
   `numero_admin` int NOT NULL,
   PRIMARY KEY (`cod_materia`),
   UNIQUE KEY `nombre_materia_UNIQUE` (`nombre_materia`),
   KEY `CF_ADMIN_MATERIA_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_MATERIA` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `materia`
---
-
-LOCK TABLES `materia` WRITE;
-/*!40000 ALTER TABLE `materia` DISABLE KEYS */;
-/*!40000 ALTER TABLE `materia` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `modificacion_apunte`
@@ -195,15 +151,6 @@ CREATE TABLE `modificacion_apunte` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `modificacion_apunte`
---
-
-LOCK TABLES `modificacion_apunte` WRITE;
-/*!40000 ALTER TABLE `modificacion_apunte` DISABLE KEYS */;
-/*!40000 ALTER TABLE `modificacion_apunte` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `modificacion_materia`
 --
 
@@ -218,15 +165,6 @@ CREATE TABLE `modificacion_materia` (
   CONSTRAINT `CF_MATERIA_MODMAT` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `modificacion_materia`
---
-
-LOCK TABLES `modificacion_materia` WRITE;
-/*!40000 ALTER TABLE `modificacion_materia` DISABLE KEYS */;
-/*!40000 ALTER TABLE `modificacion_materia` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `precio`
@@ -244,15 +182,6 @@ CREATE TABLE `precio` (
   CONSTRAINT `CF_APUNTE_PRECIO` FOREIGN KEY (`id_apunte`) REFERENCES `apunte` (`id_apunte`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `precio`
---
-
-LOCK TABLES `precio` WRITE;
-/*!40000 ALTER TABLE `precio` DISABLE KEYS */;
-/*!40000 ALTER TABLE `precio` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -263,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-13 19:26:20
+-- Dump completed on 2024-11-06 10:40:12

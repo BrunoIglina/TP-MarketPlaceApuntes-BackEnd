@@ -5,17 +5,22 @@ import precioRoutes from './routes/precioRoutes.js';
 import compraRoutes from './routes/compraRoutes.js';
 import alumnoRoutes from './routes/alumnoRoutes.js';
 import materiaRoutes from './routes/materiaRoutes.js';
+import mercadoPagoRoutes from './routes/mercadoPagoRoutes.js'; 
 
 const app = express();
+
 
 app.use(cors());
 app.use(express.json());
 
+
+app.use('/api/mercadopago', mercadoPagoRoutes);
 app.use('/api/apuntes', apunteRoutes);
 app.use('/api/precios', precioRoutes);
 app.use('/api/compras', compraRoutes);
 app.use('/api/alumnos', alumnoRoutes);
 app.use('/api/materias', materiaRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
