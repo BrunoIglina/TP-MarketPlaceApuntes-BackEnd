@@ -12,6 +12,7 @@ export const validateAlumno = (data) => {
         motivo_suspension: Joi.string().max(45).allow(null),
         numero_admin: Joi.number().integer().allow(null),
         CVU_MP: Joi.number().integer().required(),
+        rol_usuario: Joi.string().max(45).required(),
     });
     return schema.validate(data);
 };
@@ -28,6 +29,7 @@ export const validatePartialAlumno = (data) => {
         motivo_suspension: Joi.string().max(45).allow(null),
         numero_admin: Joi.number().integer().allow(null),
         CVU_MP: Joi.number().integer().allow(null),
+        rol_usuario: Joi.string().max(45).optional(),
     });
     return schema.validate(data);
 };

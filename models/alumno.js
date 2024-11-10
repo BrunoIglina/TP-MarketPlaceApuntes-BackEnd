@@ -69,6 +69,10 @@ export const Alumno = sequelize.define('Alumno', {
     CVU_MP: {
         type: DataTypes.INTEGER,
         allowNull: true,
+    },
+    rol_usuario: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
     }
 }, {
     tableName: 'alumno',
@@ -97,6 +101,18 @@ export async function updateAlumno(id, data) {
         throw new Error(error.details.map(err => err.message).join(', '));
     }
     return alumno.update(data);
+}
+
+export function getAlumnoByLegajo(legajo) {
+    return Alumno.findOne({ where: { legajo_usuario: legajo } });
+}
+
+export function getAlumnoByEmail(email) {
+    return Alumno.findOne({ where: { email_usuario: email } });
+}
+
+export function getAlumnoByNombreUsuario(nombreUsuario) {
+    return Alumno.findOne({ where: { nombre_usuario: nombreUsuario } });
 }
 
 (async () => {

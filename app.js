@@ -6,6 +6,11 @@ import compraRoutes from './routes/compraRoutes.js';
 import alumnoRoutes from './routes/alumnoRoutes.js';
 import materiaRoutes from './routes/materiaRoutes.js';
 import mercadoPagoRoutes from './routes/mercadoPagoRoutes.js'; 
+import authControllerRoutes from './routes/authControllerRoutes.js';
+import dotenv from 'dotenv';
+import verifRoutes from './routes/verifRoutes.js';
+
+dotenv.config();
 
 const app = express();
 
@@ -20,6 +25,8 @@ app.use('/api/precios', precioRoutes);
 app.use('/api/compras', compraRoutes);
 app.use('/api/alumnos', alumnoRoutes);
 app.use('/api/materias', materiaRoutes);
+app.use('/api/auth', authControllerRoutes);
+app.use('/api/verif', verifRoutes);
 
 
 const PORT = process.env.PORT || 3000;
