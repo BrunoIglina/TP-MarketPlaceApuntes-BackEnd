@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPreference, getFeedback } from '../controllers/mercadoPagoController.js'; // Asegúrate de que la ruta sea correcta
+import { createPreference, getFeedback } from '../controllers/mercadoPagoController.js';
 
 const router = express.Router();
 

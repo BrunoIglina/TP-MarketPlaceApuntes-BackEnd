@@ -72,7 +72,6 @@ export async function deleteMateria(id) {
     throw new Error('Materia no encontrada');
 }
 
-// Sincronización del modelo con la base de datos
 (async () => {
     try {
     await sequelize.sync();

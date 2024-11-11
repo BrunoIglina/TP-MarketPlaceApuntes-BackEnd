@@ -95,7 +95,7 @@ class ApunteController {
 
     update = async (req, res) => {
         const { id } = req.params;
-        const { descripcion_mod_apunte, ...updateData } = req.body; // Extraemos la descripción
+        const { descripcion_mod_apunte, ...updateData } = req.body;
     
         try {
             

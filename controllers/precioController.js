@@ -30,7 +30,7 @@ class PrecioController {
         const { id } = req.params;
 
         try {
-            const updatedPrecio = await this.precioModel.updatePrecio(id, req.body); // Se agregó req.body para actualizar
+            const updatedPrecio = await this.precioModel.updatePrecio(id, req.body);
             return res.json(updatedPrecio);
         } catch (error) {
             console.error('Error en la actualización del precio:', error);

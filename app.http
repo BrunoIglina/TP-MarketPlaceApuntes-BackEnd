@@ -31,8 +31,8 @@ PUT http://localhost:3000/api/apuntes/8
 Content-Type: application/json
 
 {
-  "titulo_apunte": "Resumen del parcial 2",
-  "descripcion_mod_apunte": "Actualización del título del apunte"
+    "titulo_apunte": "Resumen del parcial 2",
+    "descripcion_mod_apunte": "Actualización del título del apunte"
 }
 
 
@@ -49,8 +49,8 @@ POST http://localhost:3000/api/precios
 Content-Type: application/json
 
 {
-  "id_apunte": 8,
-  "monto_precio": 3500
+    "id_apunte": 8,
+    "monto_precio": 3500
 }
 
 ### Obtener el último precio de un apunte por su ID

@@ -43,7 +43,6 @@ export async function getAllModificacionesMateria() {
     return ModificacionMateria.findAll();
 }
 
-// Sincronización del modelo con la base de datos
 (async () => {
     try {
         await sequelize.sync();

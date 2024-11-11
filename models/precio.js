@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import moment from 'moment-timezone';
 import dotenv from 'dotenv';
 import { validatePrecio, validatePartialPrecio } from '../schemas/precio.js';
-import { sequelize } from './sequelize.js'; // Asegúrate de importar sequelize desde este archivo
+import { sequelize } from './sequelize.js';
 import { ApunteModel } from './apunte.js';
 
 dotenv.config();

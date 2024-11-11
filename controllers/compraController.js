@@ -6,29 +6,28 @@ class CompraController {
     }
 
     create = async (req, res) => {
-      const { numero_alumno, id_apunte, idPago } = req.body;
-  
-      
-      const numeroAlumnoInt = parseInt(numero_alumno, 10);
-      const idApunteInt = parseInt(id_apunte, 10);
-  
-      if (isNaN(numeroAlumnoInt) || isNaN(idApunteInt)) {
-          return res.status(400).json({ error: 'numero_alumno e id_apunte deben ser números válidos' });
-      }
-  
-      try {
-          const newCompra = await this.compraModel.createCompra({ 
-              numero_alumno: numeroAlumnoInt, 
-              id_apunte: idApunteInt, 
-              idPago 
-          });
-          res.status(201).json(newCompra);
-      } catch (error) {
-          console.error('Error al crear la compra:', error);
-          res.status(500).json({ error: 'Error al crear la compra' });
-      }
-  };
-  
+    const { numero_alumno, id_apunte, idPago } = req.body;
+
+    const numeroAlumnoInt = parseInt(numero_alumno, 10);
+    const idApunteInt = parseInt(id_apunte, 10);
+
+    if (isNaN(numeroAlumnoInt) || isNaN(idApunteInt)) {
+        return res.status(400).json({ error: 'numero_alumno e id_apunte deben ser números válidos' });
+    }
+
+    try {
+        const newCompra = await this.compraModel.createCompra({ 
+            numero_alumno: numeroAlumnoInt, 
+            id_apunte: idApunteInt, 
+            idPago 
+        });
+        res.status(201).json(newCompra);
+    } catch (error) {
+        console.error('Error al crear la compra:', error);
+        res.status(500).json({ error: 'Error al crear la compra' });
+    }
+};
+
 
     updateCalificacion = async (req, res) => {
         const { numero_alumno, id_apunte } = req.params;
@@ -53,15 +52,15 @@ class CompraController {
 
     getCompras = async (req, res) => {
         const { numero_alumno } = req.params;
-      
+    
         try {
-          const compras = await this.compraModel.GetCompras(numero_alumno);
-          res.json(compras);
+        const compras = await this.compraModel.GetCompras(numero_alumno);
+        res.json(compras);
         } catch (error) {
-          console.error('Error al obtener las compras:', error);
-          res.status(500).json({ error: 'Error al obtener las compras' });
+        console.error('Error al obtener las compras:', error);
+        res.status(500).json({ error: 'Error al obtener las compras' });
         }
-      };
+    };
 
     getCompra = async (req, res) => {
         const { numero_alumno, id_apunte } = req.params;

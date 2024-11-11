@@ -15,7 +15,6 @@ const sequelize = new Sequelize(
     }
 );
 
-// Modelo de Alumno
 export const Alumno = sequelize.define('Alumno', {
     numero_usuario: {
         type: DataTypes.STRING(45),

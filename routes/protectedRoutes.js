@@ -4,7 +4,6 @@ import AlumnoController from '../controllers/alumnoController.js';
 
 const router = express.Router();
 
-// Rutas protegidas
 router.use(authenticateToken);
 
 router.get('/profile', AlumnoController.get);
