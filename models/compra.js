@@ -108,6 +108,12 @@ export async function GetCompras(numero_alumno1) {
   return apuntes;
 }
 
+export async function getComprasContador(id_apunte) {
+  const compras = await CompraModel.count({
+    where: { id_apunte: id_apunte }
+  });
+  return compras;
+}
 
 export async function GetCompra(numero_alumno1, id_apunte1) {
   const compra = await CompraModel.findOne({

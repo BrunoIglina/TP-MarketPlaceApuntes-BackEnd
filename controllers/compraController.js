@@ -77,6 +77,18 @@ class CompraController {
             res.status(500).json({ error: 'Error al obtener la compra' });
         }
     };
+
+    getComprasContador = async (req, res) => {
+        const { id_apunte } = req.params;
+    
+        try {
+          const compras = await this.compraModel.getComprasContador(id_apunte);
+          res.json({ count: compras });
+        } catch (error) {
+          console.error('Error al obtener las compras:', error);
+          res.status(500).json({ error: 'Error al obtener las compras' });
+        }
+    };
 }
 
 export default new CompraController({ compraModel: CompraModel });

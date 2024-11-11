@@ -77,10 +77,13 @@ Content-Type: application/json
 
 
 ### Obtener todas las compras de alumno
-GET http://localhost:3000/api/compras/1
+GET http://localhost:3000/api/compras/11
+
+### Obtener todas las compras de un apunte
+GET http://localhost:3000/api/compras/apuntes/contar/23
 
 ### Obtener una unica compra
-GET http://localhost:3000/api/compras/1/5
+GET http://localhost:3000/api/compras/11/23
 
 
 

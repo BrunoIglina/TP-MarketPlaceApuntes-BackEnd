@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
     }
 );
 
-// Modelo de Alumno
+
 export const Alumno = sequelize.define('Alumno', {
     numero_usuario: {
         type: DataTypes.STRING(45),
@@ -56,10 +56,6 @@ export const Alumno = sequelize.define('Alumno', {
     },
     motivo_suspension: {
         type: DataTypes.STRING(60),
-        allowNull: true,
-    },
-    duracion_suspension: {
-        type: DataTypes.TIME,
         allowNull: true,
     },
     numero_admin: {
@@ -113,6 +109,21 @@ export function getAlumnoByEmail(email) {
 
 export function getAlumnoByNombreUsuario(nombreUsuario) {
     return Alumno.findOne({ where: { nombre_usuario: nombreUsuario } });
+}
+
+export async function updateSancion(id, numeroAdmin) {
+    console.log(`updateSancion called with id: ${id} and numeroAdmin: ${numeroAdmin}`);
+    const alumno = await Alumno.findByPk(id);
+    if (!alumno) {
+        console.log('Alumno not found');
+        throw new Error('Alumno no encontrado');
+    }
+    console.log(`Updating alumno: ${JSON.stringify(alumno)}`);
+    return alumno.update({
+        motivo_suspension: 'apunte inflige normas',
+        fecha_hora_suspension: moment().tz('America/Argentina/Buenos_Aires').format(),
+        numero_admin: numeroAdmin
+    });
 }
 
 (async () => {
