@@ -1,7 +1,8 @@
 import * as ApunteModel from '../models/apunte.js'; 
 import upload from '../middleware/multerConfig.js';
 import { PDFDocument } from 'pdf-lib';
-
+import { deleteApunte } from '../models/apunte.js';
+import moment from 'moment-timezone';
 
 class ApunteController {
     constructor({ apunteModel }) {
@@ -78,24 +79,29 @@ class ApunteController {
     };
     
     delete = async (req, res) => {
-        const { id } = req.params;
-
+        const { id, numeroAdmin } = req.params;
+    
         try {
-            const result = await this.apunteModel.deleteApunte(id);
-
+            console.log(`Attempting to delete apunte with id: ${id} and numeroAdmin: ${numeroAdmin}`);
+            const result = await deleteApunte(id, numeroAdmin);
+            console.log(`Delete result: ${result}`);
+    
             if (result === false) {
+                console.log('Apunte not found');
                 return res.status(404).json({ message: 'Apunte no encontrado' });
             }
-
-            return res.json({ message: 'Apunte eliminado' });
+    
+            return res.json({ message: 'Apunte eliminado y alumno sancionado' });
         } catch (error) {
-            res.status(500).json({ error: 'Error al eliminar el apunte' });
+            console.error('Error in delete controller:', error);
+            res.status(500).json({ error: 'Error al eliminar el apunte y sancionar al alumno' });
         }
     };
+    
 
     update = async (req, res) => {
         const { id } = req.params;
-        const { descripcion_mod_apunte, ...updateData } = req.body; // Extraemos la descripción
+        const { descripcion_mod_apunte, ...updateData } = req.body; 
     
         try {
             

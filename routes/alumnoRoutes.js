@@ -1,9 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const AlumnoController = require('../controllers/alumnoController')
+import express from 'express';
+import AlumnoController from '../controllers/alumnoController.js';
 
-router.post('/', AlumnoController.create)
-router.put('/:id', AlumnoController.update)
-router.delete('/:id', AlumnoController.delete)
+const router = express.Router();
 
-module.exports = router
+router.post('/', AlumnoController.create);
+router.put('/:id', AlumnoController.update);
+router.get('/:id', AlumnoController.get);
+
+export default router;

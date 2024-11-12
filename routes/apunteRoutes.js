@@ -12,7 +12,7 @@ router.post('/', upload.fields([
 router.get('/', ApunteController.getAll);
 router.get('/:id', ApunteController.getById);
 router.put('/:id', ApunteController.update);
-router.delete('/:id', ApunteController.delete);
+router.delete('/:id/:numeroAdmin', ApunteController.delete);
 router.get('/materias/:id', ApunteController.getByIdMateria);
 router.get('/alumnos/:id', ApunteController.getByIdAlumno);
 router.get('/descargar/:id', ApunteController.download);

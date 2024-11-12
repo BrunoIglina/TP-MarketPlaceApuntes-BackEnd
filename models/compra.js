@@ -28,14 +28,15 @@ export const CompraModel = sequelize.define('Compra', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  idPago: {  
+    type: DataTypes.STRING(255), 
+    allowNull: false,
+  }
 }, {
   tableName: 'compra',
   timestamps: false,
 });
 
-// Definición de relaciones
-CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
-ApunteModel.hasMany(CompraModel, { foreignKey: 'id_apunte', as: 'compras' });
 
 
 CompraModel.belongsTo(ApunteModel, { foreignKey: 'id_apunte', as: 'apunte' });
@@ -52,12 +53,13 @@ export async function createCompra(data) {
     id_apunte: data.id_apunte,
     fecha_hora_compra: moment.tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DD HH:mm:ss'),
     calificacion_apunte_comprador: data.calificacion_apunte_comprador || null, 
+    idPago: data.idPago,
   });
   return compra;
 }
 
-export async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comprador }) {
-  const { error } = validatePartialCompra({ calificacion_apunte_comprador });
+export async function updateCompra({ numero_alumno, id_apunte, calificacion_apunte_comprador, idPago }) {
+  const { error } = validatePartialCompra({ calificacion_apunte_comprador, idPago });
   if (error) {
     throw new Error(error.details.map(err => err.message).join(', '));
   }
@@ -72,6 +74,9 @@ export async function updateCompra({ numero_alumno, id_apunte, calificacion_apun
     }
 
     compra.calificacion_apunte_comprador = calificacion_apunte_comprador;
+    if (idPago) {
+      compra.idPago = idPago; 
+    }
     await compra.save();
 
     await updateCalificacionPromedio(id_apunte);
@@ -81,6 +86,7 @@ export async function updateCompra({ numero_alumno, id_apunte, calificacion_apun
   }
 }
 
+
 export async function GetCompras(numero_alumno1) {
   const compras = await CompraModel.findAll({
     where: { numero_alumno: numero_alumno1 },
@@ -89,8 +95,7 @@ export async function GetCompras(numero_alumno1) {
       as: 'apunte',
       attributes: ['id_apunte', 'titulo_apunte', 'descripcion_apunte', 'calificacion_apunte', 'fecha_hora_publicacion', 'archivo_caratula']
     }],
-
-    order: [[{ model: ApunteModel, as: 'apunte' }, 'fecha_hora_publicacion', 'DESC']]
+    order: [['fecha_hora_compra', 'DESC']]
   });
 
   const apuntes = compras.map(compra => {
@@ -101,6 +106,13 @@ export async function GetCompras(numero_alumno1) {
     return apunte;
   });
   return apuntes;
+}
+
+export async function getComprasContador(id_apunte) {
+  const compras = await CompraModel.count({
+    where: { id_apunte: id_apunte }
+  });
+  return compras;
 }
 
 export async function GetCompra(numero_alumno1, id_apunte1) {

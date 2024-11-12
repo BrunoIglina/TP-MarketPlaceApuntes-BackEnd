@@ -4,6 +4,7 @@ import { sequelize } from './sequelize.js';
 import dotenv from 'dotenv';
 import { validateApunte, validatePartialApunte } from '../schemas/apunte.js';
 import { createModificacionApunte } from './modificacionApunte.js';
+import { Alumno, updateSancion } from './alumno.js';
 
 dotenv.config();
 
@@ -156,14 +157,25 @@ export async function updateApunte(id, data, descripcionModificacion) {
   return updatedApunte;
 }
 
-export async function deleteApunte(id) {
+export async function deleteApunte(id, numeroAdmin) {
+  console.log(`deleteApunte called with id: ${id} and numeroAdmin: ${numeroAdmin}`);
   const apunte = await ApunteModel.findByPk(id);
+  
   if (apunte) {
-    return apunte.destroy().then(() => true);
+    console.log(`Apunte found: ${JSON.stringify(apunte)}`);
+    const alumno = await Alumno.findByPk(apunte.numero_alumno); 
+    if (alumno) {
+      console.log(`Alumno found: ${JSON.stringify(alumno)}`);
+      await updateSancion(alumno.numero_usuario, numeroAdmin); 
+    } else {
+      console.log('Alumno not found');
+    }
+    await apunte.destroy();
+    return true;
   }
+  console.log('Apunte not found');
   throw new Error('Apunte no encontrado');
 }
-
 
 (async () => {
   try {
