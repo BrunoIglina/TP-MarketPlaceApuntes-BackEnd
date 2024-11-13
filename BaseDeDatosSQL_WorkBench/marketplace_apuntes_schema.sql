@@ -4,7 +4,7 @@ USE `marketplace_apuntes`;
 --
 -- Host: localhost    Database: marketplace_apuntes
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,7 +57,7 @@ CREATE TABLE `alumno` (
   `fecha_hora_suspension` datetime DEFAULT NULL,
   `motivo_suspension` varchar(60) DEFAULT NULL,
   `numero_admin` int DEFAULT NULL,
-  `CVU_MP` bigint NOT NULL,
+  `CVU_MP` varchar(22) NOT NULL,
   `rol_usuario` varchar(45) NOT NULL,
   PRIMARY KEY (`numero_usuario`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`),
@@ -65,7 +65,7 @@ CREATE TABLE `alumno` (
   UNIQUE KEY `legajo_usuario_UNIQUE` (`legajo_usuario`),
   KEY `numero_admin_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_ALUMNO` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `materia` (
   UNIQUE KEY `nombre_materia_UNIQUE` (`nombre_materia`),
   KEY `CF_ADMIN_MATERIA_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_MATERIA` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,5 +191,4 @@ CREATE TABLE `precio` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-12 23:23:44
-
+-- Dump completed on 2024-11-13  0:19:43

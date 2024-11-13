@@ -11,7 +11,7 @@ export const validateAlumno = (data) => {
         reputacion_usuario: Joi.number().integer().allow(null),
         motivo_suspension: Joi.string().max(45).allow(null),
         numero_admin: Joi.number().integer().allow(null),
-        CVU_MP: Joi.number().integer().required(),
+        CVU_MP: Joi.string().max(22).required(),
         rol_usuario: Joi.string().max(45).required(),
     });
     return schema.validate(data);
@@ -28,7 +28,7 @@ export const validatePartialAlumno = (data) => {
         reputacion_usuario: Joi.number().integer().allow(null),
         motivo_suspension: Joi.string().max(45).allow(null),
         numero_admin: Joi.number().integer().allow(null),
-        CVU_MP: Joi.number().integer().allow(null),
+        CVU_MP: Joi.string().max(22).allow(null),
         rol_usuario: Joi.string().max(45).optional(),
     });
     return schema.validate(data);

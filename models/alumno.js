@@ -63,7 +63,7 @@ export const Alumno = sequelize.define('Alumno', {
         allowNull: true,
     },
     CVU_MP: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(22),
         allowNull: true,
     },
     rol_usuario: {
