@@ -4,7 +4,7 @@ USE `marketplace_apuntes`;
 --
 -- Host: localhost    Database: marketplace_apuntes
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -65,7 +65,7 @@ CREATE TABLE `alumno` (
   UNIQUE KEY `legajo_usuario_UNIQUE` (`legajo_usuario`),
   KEY `numero_admin_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_ALUMNO` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,8 +89,8 @@ CREATE TABLE `apunte` (
   KEY `CF_APUNTE_ALUMNO_idx` (`numero_alumno`),
   KEY `CF_APUNTE_MATERIA_idx` (`cod_materia`),
   CONSTRAINT `CF_APUNTE_ALUMNO` FOREIGN KEY (`numero_alumno`) REFERENCES `alumno` (`numero_usuario`) ON DELETE CASCADE,
-  CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `materia` (
   UNIQUE KEY `nombre_materia_UNIQUE` (`nombre_materia`),
   KEY `CF_ADMIN_MATERIA_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_MATERIA` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,4 +191,4 @@ CREATE TABLE `precio` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-13  0:19:43
+-- Dump completed on 2024-11-13 11:48:49
