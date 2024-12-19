@@ -8,7 +8,8 @@ Content-Type: application/json
     "numero_alumno": 1,
     "cod_materia": 1,
     "archivo_apunte": "data:application/pdf;base64,...",  
-    "archivo_caratula": "data:image/jpeg;base64,..."      
+    "archivo_caratula": "data:image/jpeg;base64,...",  
+    "estado_apunte": "A"
 }
 
 
@@ -96,7 +97,8 @@ Content-Type: application/json
 {
     "nombre_materia": "Literatura",
     "nivel_carrera": 2,
-    "numero_admin": 1
+    "numero_admin": 1,
+    "estado_materia": "A"
 }
 
 ###Get Materia

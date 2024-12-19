@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `marketplace_apuntes` /*!40100 DEFAULT CHARACTER 
 USE `marketplace_apuntes`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: marketplace_apuntes
+-- Host: localhost    Database: marketplace_apuntes
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,11 +32,10 @@ CREATE TABLE `administrador` (
   `telefono_usuario` varchar(20) NOT NULL,
   `contraseña_usuario` varchar(45) NOT NULL,
   `rol_usuario` varchar(45) NOT NULL,
-  `CVU_MP` bigint DEFAULT NULL,
   PRIMARY KEY (`numero_usuario`),
   UNIQUE KEY `email_usuario_UNIQUE` (`email_usuario`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,16 +56,16 @@ CREATE TABLE `alumno` (
   `reputacion_usuario` int DEFAULT NULL,
   `fecha_hora_suspension` datetime DEFAULT NULL,
   `motivo_suspension` varchar(60) DEFAULT NULL,
-  `duracion_suspension` time DEFAULT NULL,
   `numero_admin` int DEFAULT NULL,
-  `CVU_MP` int DEFAULT NULL,
+  `CVU_MP` varchar(22) NOT NULL,
+  `rol_usuario` varchar(45) NOT NULL,
   PRIMARY KEY (`numero_usuario`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`),
   UNIQUE KEY `email_usuario_UNIQUE` (`email_usuario`),
   UNIQUE KEY `legajo_usuario_UNIQUE` (`legajo_usuario`),
   KEY `numero_admin_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_ALUMNO` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,8 +89,8 @@ CREATE TABLE `apunte` (
   KEY `CF_APUNTE_ALUMNO_idx` (`numero_alumno`),
   KEY `CF_APUNTE_MATERIA_idx` (`cod_materia`),
   CONSTRAINT `CF_APUNTE_ALUMNO` FOREIGN KEY (`numero_alumno`) REFERENCES `alumno` (`numero_usuario`) ON DELETE CASCADE,
-  CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `CF_APUNTE_MATERIA` FOREIGN KEY (`cod_materia`) REFERENCES `materia` (`cod_materia`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +130,7 @@ CREATE TABLE `materia` (
   UNIQUE KEY `nombre_materia_UNIQUE` (`nombre_materia`),
   KEY `CF_ADMIN_MATERIA_idx` (`numero_admin`),
   CONSTRAINT `CF_ADMIN_MATERIA` FOREIGN KEY (`numero_admin`) REFERENCES `administrador` (`numero_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,4 +191,4 @@ CREATE TABLE `precio` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-06 10:40:12
+-- Dump completed on 2024-11-13 11:48:49

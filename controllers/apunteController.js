@@ -1,7 +1,7 @@
 import * as ApunteModel from '../models/apunte.js'; 
 import upload from '../middleware/multerConfig.js';
 import { PDFDocument } from 'pdf-lib';
-import { deleteApunte } from '../models/apunte.js';
+import { deleteApunte, deleteApunteByUser } from '../models/apunte.js';
 import moment from 'moment-timezone';
 
 class ApunteController {
@@ -97,7 +97,26 @@ class ApunteController {
             res.status(500).json({ error: 'Error al eliminar el apunte y sancionar al alumno' });
         }
     };
+     deleteByUser = async(req,res) => {
+        const { id } = req.params;
     
+        try {
+            console.log(`Attempting to delete apunte with id: ${id}`);
+            const result = await deleteApunteByUser(id);
+            console.log(`Delete result: ${result}`);
+    
+            if (result === false) {
+                console.log('Apunte not found');
+                return res.status(404).json({ message: 'Apunte no encontrado' });
+            }
+    
+            return res.json({ message: 'Apunte eliminado' });
+        } catch (error) {
+            console.error('Error in delete controller:', error);
+            res.status(500).json({ error: 'Error al eliminar el apunte' });
+        }
+    };
+     
 
     update = async (req, res) => {
         const { id } = req.params;
