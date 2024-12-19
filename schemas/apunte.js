@@ -10,6 +10,7 @@ export const validateApunte = (data) => {
     cod_materia: Joi.number().integer().required(),
     archivo_apunte: Joi.binary().required(),
     archivo_caratula: Joi.binary().required(),
+    estado_apunte: Joi.string().valid('A', 'N'),
   });
 
   return schema.validate(data);
@@ -25,6 +26,7 @@ export const validatePartialApunte = (data) => {
     cod_materia: Joi.number().integer().optional(),
     archivo_apunte: Joi.binary().optional(),
     archivo_caratula: Joi.binary().optional(),
+    estado_apunte: Joi.string().valid('A', 'N'),
   });
 
   return schema.validate(data);

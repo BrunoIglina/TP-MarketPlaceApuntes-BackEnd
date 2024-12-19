@@ -46,6 +46,11 @@ export const ApunteModel = sequelize.define('Apunte', {
     type: DataTypes.BLOB,
     allowNull: false,
   },
+  estado_apunte: {
+    type: DataTypes.STRING(1),
+    allowNull: false,
+    defaultValue: 'N',
+  }
 }, {
   tableName: 'apunte',
   timestamps: false,
@@ -56,14 +61,18 @@ export async function createApunte(data) {
   if (error) {
     throw new Error(error.details.map(err => err.message).join(', '));
   }
-
+  if (!data.estado_apunte) {
+    data.estado_apunte = 'A';
+}
   data.fecha_hora_publicacion = moment.tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DD HH:mm:ss');
   return ApunteModel.create(data); 
 
 }
 
 export async function getAllApuntes() {
-  return ApunteModel.findAll();
+  return ApunteModel.findAll({
+    where: { estado_apunte: 'A' },
+  });
 }
 
 
@@ -71,7 +80,9 @@ export async function getApunteByIdAlumno(idAlumno) {
   try {
     const apuntes = await ApunteModel.findAll({
       attributes: { exclude: ['archivo_apunte'] }, 
-      where: { numero_alumno: idAlumno },
+      where: { 
+        numero_alumno: idAlumno,
+        estado_apunte: 'A' },
       order: [['fecha_hora_publicacion', 'DESC']],
     });
 
@@ -96,7 +107,9 @@ export async function getApunteByIdMateria(idMateria) {
   try {
     const apuntes = await ApunteModel.findAll({
       attributes: { exclude: ['archivo_apunte'] }, 
-      where: { cod_materia: idMateria },
+      where: { 
+        cod_materia: idMateria,
+        estado_apunte: 'A' },
       order: [['calificacion_apunte', 'DESC']],
     });
 
@@ -170,11 +183,20 @@ export async function deleteApunte(id, numeroAdmin) {
     } else {
       console.log('Alumno not found');
     }
-    await apunte.destroy();
+    await apunte.update( {estado_apunte: 'N' });
     return true;
   }
   console.log('Apunte not found');
   throw new Error('Apunte no encontrado');
+}
+
+export async function deleteApunteByUser(id) {
+  console.log(`deleteApunte called with id: ${id}`);
+  const apunte = await ApunteModel.findByPk(id);
+  
+    await apunte.update( {estado_apunte: 'N' });
+    return true;
+
 }
 
 (async () => {

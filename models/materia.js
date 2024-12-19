@@ -27,6 +27,11 @@ export const Materia = sequelize.define('Materia', {
     type: DataTypes.INTEGER,
     allowNull: false,
     },
+    estado_materia: {
+        type: DataTypes.STRING(1),
+        allowNull: false,
+        defaultValue: 'A',
+    }
 }, {
     tableName: 'materia',
     timestamps: false,
@@ -37,17 +42,20 @@ export async function createMateria(data) {
     if (error) {
     throw new Error(error.details.map(err => err.message).join(', '));
     }
+    if (!data.estado_materia) {
+        data.estado_materia = 'A';
+    }
 
     data.fecha_hora_alta_materia = moment.tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DD HH:mm:ss');
     return Materia.create(data);
 }
 
 export async function getMateriaById(id) {
-    return Materia.findByPk(id);
+    return Materia.findOne({ where: {cod_materia: id, estado_materia: 'A' } });
 }
 
 export async function getAllMaterias() {
-    return Materia.findAll();
+    return Materia.findAll( {where: { estado_materia: 'A' } });
 }
 
 export async function updateMateria(id, data) {
@@ -63,15 +71,22 @@ export async function updateMateria(id, data) {
 
     return materia.update(data);
 }
-
-export async function deleteMateria(id) {
+//modifico para la baja lógica en lugar de baka física
+/*export async function deleteMateria(id) {
     const materia = await Materia.findByPk(id);
     if (materia) {
     return materia.destroy().then(() => true);
     }
     throw new Error('Materia no encontrada');
+}*/
+//función modificada
+export async function deleteMateria(id) {
+    const materia = await Materia.findByPk(id);
+    if (materia) {
+    return materia.update({ estado_materia: 'N' });
+    }
+    throw new Error('Materia no encontrada');
 }
-
 // Sincronización del modelo con la base de datos
 (async () => {
     try {
