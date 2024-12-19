@@ -1,5 +1,5 @@
 import * as MateriaModel from '../models/materia.js';
-import { createModificacionMateria } from '../models/modificacion_materia.js'; // Importa la función específica
+import { createModificacionMateria } from '../models/modificacion_materia.js'; 
 
 class MateriaController {
     create = async (req, res) => {
@@ -36,17 +36,16 @@ class MateriaController {
     update = async (req, res) => {
         const { id } = req.params;
         try {
-            // Primero actualizamos la materia
-            const updatedMateria = await MateriaModel.updateMateria(id, req.body);
+            
+            const updatedMateria = await MateriaModel.updateMateria(id, req.body);          
+            const { nombre_materia, nivel_carrera } = req.body; 
 
-            // Ahora creamos un registro en modificacion_materia
-            const { nombre_materia, nivel_carrera } = req.body; // Extrae los campos que quieras
             await createModificacionMateria({
                 cod_materia: id,
                 desc_mod_materia: `Actualización de materia: ${nombre_materia ? nombre_materia : 'N/A'} - Nivel: ${nivel_carrera ? nivel_carrera : 'N/A'}`,
             });
 
-            // Responde con la materia actualizada
+            
             res.json(updatedMateria);
         } catch (error) {
             console.error('Error al actualizar la materia:', error);
@@ -77,6 +76,15 @@ class MateriaController {
         } catch (error) {
             console.error('Error al restaurar la materia:', error);
             res.status(500).json({ error: 'Error al restaurar la materia' });
+        }
+    };
+
+    getAllMateriaBaja = async (req, res) => {
+        try {
+            const materias = await MateriaModel.getAllMateriasBajas();
+            res.json(materias);
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener las materias' });
         }
     };
 }

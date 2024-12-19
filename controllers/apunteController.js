@@ -1,8 +1,5 @@
 import * as ApunteModel from '../models/apunte.js'; 
-import upload from '../middleware/multerConfig.js';
-import { PDFDocument } from 'pdf-lib';
 import { deleteApunte, deleteApunteByUser } from '../models/apunte.js';
-import moment from 'moment-timezone';
 
 class ApunteController {
     constructor({ apunteModel }) {
@@ -148,7 +145,6 @@ class ApunteController {
         }
     };
 
-    // Nuevo método para restaurar el apunte
     restoreApunte = async (req, res) => {
         const { id } = req.params;
 
@@ -158,6 +154,13 @@ class ApunteController {
         } catch (error) {
             console.error('Error al restaurar el apunte:', error);
             res.status(500).json({ error: 'Error al restaurar el apunte' });
+          
+    getAllApuntesBaja = async (req, res) => {
+        try {
+            const apuntes = await this.apunteModel.getAllApuntesBajas();
+            res.json(apuntes);
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener los apuntes' });
         }
     };
 }

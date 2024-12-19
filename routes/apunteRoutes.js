@@ -18,5 +18,7 @@ router.get('/materias/:id', ApunteController.getByIdMateria);
 router.get('/alumnos/:id', ApunteController.getByIdAlumno);
 router.get('/descargar/:id', ApunteController.download);
 router.put('/restore/:id', ApunteController.restoreApunte);
+router.get('/bajas/totales', ApunteController.getAllApuntesBaja);
+
 
 export default router;

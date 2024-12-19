@@ -199,6 +199,7 @@ export async function deleteApunteByUser(id) {
 
 }
 
+
 export async function restoreApunte(id) {
   const apunte = await ApunteModel.findByPk(id);
 
@@ -212,6 +213,12 @@ export async function restoreApunte(id) {
 
   await apunte.update({ estado_apunte: 'A' });
   return apunte;
+
+export async function getAllApuntesBajas() {
+  return ApunteModel.findAll({
+    where: { estado_apunte: 'N' },
+  });
+
 }
 
 (async () => {

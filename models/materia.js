@@ -80,6 +80,7 @@ export async function deleteMateria(id) {
     throw new Error('Materia no encontrada');
 }
 
+
 export async function restoreMateria(id) {
     const materia = await Materia.findOne({ where: { cod_materia: id, estado_materia: 'N' } });
     if (!materia) {
@@ -88,7 +89,14 @@ export async function restoreMateria(id) {
     return materia.update({ estado_materia: 'A' });
 }
 
-// Sincronización del modelo con la base de datos
+
+export async function getAllMateriasBajas() {
+  return Materia.findAll({
+    where: { estado_materia: 'N' },
+  });
+}
+
+
 (async () => {
     try {
         await sequelize.sync();
