@@ -29,7 +29,6 @@ class ApunteController {
             res.status(500).json({ error: 'Error al obtener los apuntes del alumno' });
         }
     };
-    
 
     getById = async (req, res) => {
         const { id } = req.params;
@@ -55,11 +54,9 @@ class ApunteController {
 
     create = async (req, res) => {
         try {
-            
             const archivoApunte = req.files['archivo_apunte'][0].buffer; 
             const archivoCaratula = req.files['archivo_caratula'][0].buffer; 
-    
-            
+
             const data = {
                 titulo_apunte: req.body.titulo_apunte,
                 descripcion_apunte: req.body.descripcion_apunte,
@@ -68,8 +65,7 @@ class ApunteController {
                 archivo_apunte: archivoApunte, 
                 archivo_caratula: archivoCaratula 
             };
-    
-            
+
             const newApunte = await this.apunteModel.createApunte(data);
             res.status(201).json(newApunte);
         } catch (error) {
@@ -77,53 +73,52 @@ class ApunteController {
             res.status(500).json({ error: 'Error al crear el apunte' });
         }
     };
-    
+
     delete = async (req, res) => {
         const { id, numeroAdmin } = req.params;
-    
+
         try {
             console.log(`Attempting to delete apunte with id: ${id} and numeroAdmin: ${numeroAdmin}`);
             const result = await deleteApunte(id, numeroAdmin);
             console.log(`Delete result: ${result}`);
-    
+
             if (result === false) {
                 console.log('Apunte not found');
                 return res.status(404).json({ message: 'Apunte no encontrado' });
             }
-    
+
             return res.json({ message: 'Apunte eliminado y alumno sancionado' });
         } catch (error) {
             console.error('Error in delete controller:', error);
             res.status(500).json({ error: 'Error al eliminar el apunte y sancionar al alumno' });
         }
     };
-     deleteByUser = async(req,res) => {
+
+    deleteByUser = async(req,res) => {
         const { id } = req.params;
-    
+
         try {
             console.log(`Attempting to delete apunte with id: ${id}`);
             const result = await deleteApunteByUser(id);
             console.log(`Delete result: ${result}`);
-    
+
             if (result === false) {
                 console.log('Apunte not found');
                 return res.status(404).json({ message: 'Apunte no encontrado' });
             }
-    
+
             return res.json({ message: 'Apunte eliminado' });
         } catch (error) {
             console.error('Error in delete controller:', error);
             res.status(500).json({ error: 'Error al eliminar el apunte' });
         }
     };
-     
 
     update = async (req, res) => {
         const { id } = req.params;
-        const { descripcion_mod_apunte, ...updateData } = req.body; 
-    
+        const { descripcion_mod_apunte, ...updateData } = req.body;
+
         try {
-            
             const updatedApunte = await this.apunteModel.updateApunte(id, updateData, descripcion_mod_apunte);
             return res.json(updatedApunte);
         } catch (error) {
@@ -131,22 +126,19 @@ class ApunteController {
             res.status(500).json({ error: 'Error en la actualización del apunte.' });
         }
     };
-    
 
     download = async (req, res) => {
         const { id } = req.params;
-    
+
         try {
             const apunte = await this.apunteModel.getApunteById(id);
             if (!apunte) {
                 return res.status(404).json({ message: 'Apunte no encontrado' });
             }
-    
-            
+
             const archivoBuffer = apunte.archivo_apunte; 
             const fileName = `${apunte.titulo_apunte}.pdf`; 
-    
-            
+
             res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
             res.setHeader('Content-Type', 'application/pdf'); 
             res.send(archivoBuffer);
@@ -155,6 +147,20 @@ class ApunteController {
             res.status(500).json({ error: 'Error al descargar el apunte' });
         }
     };
+
+    // Nuevo método para restaurar el apunte
+    restoreApunte = async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const restoredApunte = await this.apunteModel.restoreApunte(id);
+            return res.json({ message: 'Apunte restaurado exitosamente', apunte: restoredApunte });
+        } catch (error) {
+            console.error('Error al restaurar el apunte:', error);
+            res.status(500).json({ error: 'Error al restaurar el apunte' });
+        }
+    };
 }
 
 export default new ApunteController({ apunteModel: ApunteModel });
+
