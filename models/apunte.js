@@ -49,7 +49,7 @@ export const ApunteModel = sequelize.define('Apunte', {
   estado_apunte: {
     type: DataTypes.STRING(1),
     allowNull: false,
-    defaultValue: 'N',
+    defaultValue: 'A',
   }
 }, {
   tableName: 'apunte',
@@ -199,10 +199,26 @@ export async function deleteApunteByUser(id) {
 
 }
 
+
+export async function restoreApunte(id) {
+  const apunte = await ApunteModel.findByPk(id);
+
+  if (!apunte) {
+      throw new Error('Apunte no encontrado');
+  }
+
+  if (apunte.estado_apunte === 'A') {
+      throw new Error('El apunte ya está activo');
+  }
+
+  await apunte.update({ estado_apunte: 'A' });
+  return apunte;
+
 export async function getAllApuntesBajas() {
   return ApunteModel.findAll({
     where: { estado_apunte: 'N' },
   });
+
 }
 
 (async () => {

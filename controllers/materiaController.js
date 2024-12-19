@@ -3,44 +3,43 @@ import { createModificacionMateria } from '../models/modificacion_materia.js';
 
 class MateriaController {
     create = async (req, res) => {
-    try {
-        const newMateria = await MateriaModel.createMateria(req.body);
-        res.status(201).json(newMateria);
-    } catch (error) {
-        console.error('Error al crear la materia:', error);
-        res.status(500).json({ error: 'Error al crear la materia' });
-    }
+        try {
+            const newMateria = await MateriaModel.createMateria(req.body);
+            res.status(201).json(newMateria);
+        } catch (error) {
+            console.error('Error al crear la materia:', error);
+            res.status(500).json({ error: 'Error al crear la materia' });
+        }
     };
 
     getById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const materia = await MateriaModel.getMateriaById(id);
-        if (materia) return res.json(materia);
-        res.status(404).json({ message: 'Materia no encontrada' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener la materia' });
-    }
+        const { id } = req.params;
+        try {
+            const materia = await MateriaModel.getMateriaById(id);
+            if (materia) return res.json(materia);
+            res.status(404).json({ message: 'Materia no encontrada' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener la materia' });
+        }
     };
 
     getAll = async (req, res) => {
-    try {
-        const materias = await MateriaModel.getAllMaterias();
-        res.json(materias);
-    } catch (error) {
-        console.error('Error al obtener todas las materias:', error);
-        res.status(500).json({ error: 'Error al obtener las materias' });
-    }
+        try {
+            const materias = await MateriaModel.getAllMaterias();
+            res.json(materias);
+        } catch (error) {
+            console.error('Error al obtener todas las materias:', error);
+            res.status(500).json({ error: 'Error al obtener las materias' });
+        }
     };
 
     update = async (req, res) => {
         const { id } = req.params;
         try {
             
-            const updatedMateria = await MateriaModel.updateMateria(id, req.body);
-            
-            
+            const updatedMateria = await MateriaModel.updateMateria(id, req.body);          
             const { nombre_materia, nivel_carrera } = req.body; 
+
             await createModificacionMateria({
                 cod_materia: id,
                 desc_mod_materia: `Actualización de materia: ${nombre_materia ? nombre_materia : 'N/A'} - Nivel: ${nivel_carrera ? nivel_carrera : 'N/A'}`,
@@ -55,14 +54,29 @@ class MateriaController {
     };
 
     delete = async (req, res) => {
-    const { id } = req.params;
-    try {
-        await MateriaModel.deleteMateria(id);
-        res.json({ message: 'Materia eliminada' });
-    } catch (error) {
-        console.error('Error al eliminar la materia:', error);
-        res.status(500).json({ error: 'Error al eliminar la materia' });
-    }
+        const { id } = req.params;
+        try {
+            await MateriaModel.deleteMateria(id);
+            res.json({ message: 'Materia eliminada' });
+        } catch (error) {
+            console.error('Error al eliminar la materia:', error);
+            res.status(500).json({ error: 'Error al eliminar la materia' });
+        }
+    };
+
+    restore = async (req, res) => {
+        const { id } = req.params;
+        try {
+            const restoredMateria = await MateriaModel.restoreMateria(id);
+            if (restoredMateria) {
+                res.json({ message: 'Materia restaurada correctamente', materia: restoredMateria });
+            } else {
+                res.status(404).json({ message: 'Materia no encontrada o ya activa' });
+            }
+        } catch (error) {
+            console.error('Error al restaurar la materia:', error);
+            res.status(500).json({ error: 'Error al restaurar la materia' });
+        }
     };
 
     getAllMateriaBaja = async (req, res) => {

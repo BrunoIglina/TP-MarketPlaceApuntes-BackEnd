@@ -2,13 +2,13 @@ import express from 'express';
 import ApunteController from '../controllers/apunteController.js';
 import upload from '../middleware/multerConfig.js';
 
-
 const router = express.Router();
 
 router.post('/', upload.fields([
     { name: 'archivo_apunte', maxCount: 1 },
     { name: 'archivo_caratula', maxCount: 1 } 
-  ]), ApunteController.create);
+]), ApunteController.create);
+
 router.get('/', ApunteController.getAll);
 router.get('/:id', ApunteController.getById);
 router.put('/:id', ApunteController.update);
@@ -17,6 +17,8 @@ router.delete('/:id', ApunteController.deleteByUser);
 router.get('/materias/:id', ApunteController.getByIdMateria);
 router.get('/alumnos/:id', ApunteController.getByIdAlumno);
 router.get('/descargar/:id', ApunteController.download);
+router.put('/restore/:id', ApunteController.restoreApunte);
 router.get('/bajas/totales', ApunteController.getAllApuntesBaja);
+
 
 export default router;
