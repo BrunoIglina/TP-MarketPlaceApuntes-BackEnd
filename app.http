@@ -33,15 +33,17 @@ PUT http://localhost:3000/api/apuntes/8
 Content-Type: application/json
 
 {
-  "titulo_apunte": "Resumen del parcial 2",
-  "descripcion_mod_apunte": "Actualización del título del apunte"
+    "titulo_apunte": "Resumen del parcial 2",
+    "descripcion_mod_apunte": "Actualización del título del apunte"
 }
 
 
 ### Eliminar un apunte por ID
 DELETE http://localhost:3000/api/apuntes/3
 
-
+### Restaurar Apunte
+PUT http://localhost:3000/api/apuntes/restore/7
+Content-Type: application/json
 
 
 ### AHORA HAGO CRUD DE PRECIO
@@ -51,8 +53,8 @@ POST http://localhost:3000/api/precios
 Content-Type: application/json
 
 {
-  "id_apunte": 8,
-  "monto_precio": 3500
+    "id_apunte": 8,
+    "monto_precio": 3500
 }
 
 ### Obtener el último precio de un apunte por su ID
@@ -124,7 +126,9 @@ Content-Type: application/json
 ###Delete Materia
 DELETE http://localhost:3000/api/materias/2
 
-
+###RestaurarMateria
+PUT http://localhost:3000/api/materias/11/restaurar
+Content-Type: application/json
 
 ###CRUD mod_materia
 
@@ -184,7 +188,6 @@ Content-Type: application/json
     "quantity": 1,
     "unit_price": 2000
 }
-
 
 
 

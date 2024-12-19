@@ -31,3 +31,11 @@ export const validatePartialApunte = (data) => {
 
   return schema.validate(data);
 };
+
+export const validateRestoreApunte = (id) => {
+  const schema = Joi.object({
+    id: Joi.number().integer().required(),
+  });
+
+  return schema.validate({ id });
+};
