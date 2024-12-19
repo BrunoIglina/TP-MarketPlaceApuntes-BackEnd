@@ -87,7 +87,13 @@ export async function deleteMateria(id) {
     }
     throw new Error('Materia no encontrada');
 }
-// Sincronización del modelo con la base de datos
+
+export async function getAllMateriasBajas() {
+  return Materia.findAll({
+    where: { estado_materia: 'N' },
+  });
+}
+
 (async () => {
     try {
     await sequelize.sync();

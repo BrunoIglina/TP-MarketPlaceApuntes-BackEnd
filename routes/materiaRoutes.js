@@ -8,6 +8,7 @@ router.get('/:id', MateriaController.getById);
 router.put('/:id', MateriaController.update);
 router.delete('/:id', MateriaController.delete);
 router.get('/', MateriaController.getAll);
+router.get('/bajas/totales', MateriaController.getAllMateriaBaja);
 
 export default router;
 

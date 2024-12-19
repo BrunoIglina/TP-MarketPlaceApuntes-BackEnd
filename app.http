@@ -22,7 +22,8 @@ GET http://localhost:3000/api/apuntes/materias/2
 ### Obtener los apuntes publicados de un alumno
 GET http://localhost:3000/api/apuntes/alumnos/1
 
-
+### Obtener todos los apuntes dados de baja
+GET http://localhost:3000/api/apuntes/bajas/totales
 
 ### Obtener un apunte por ID
 GET http://localhost:3000/api/apuntes/8
@@ -106,6 +107,9 @@ GET http://localhost:3000/api/materias/4
 
 ###GetAll materia
 GET http://localhost:3000/api/materias
+
+###GetAll materias bajas
+GET http://localhost:3000/api/materias/bajas/totales
 
 
 ###UPDATE Materia

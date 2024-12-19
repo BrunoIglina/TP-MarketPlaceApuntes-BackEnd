@@ -25,6 +25,6 @@ export const testConnection = async () => {
 
 testConnection();
 
-// Exporta la instancia de sequelize
+
 export { sequelize };
 

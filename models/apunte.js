@@ -199,6 +199,12 @@ export async function deleteApunteByUser(id) {
 
 }
 
+export async function getAllApuntesBajas() {
+  return ApunteModel.findAll({
+    where: { estado_apunte: 'N' },
+  });
+}
+
 (async () => {
   try {
     await sequelize.sync();
